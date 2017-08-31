@@ -1,0 +1,35 @@
+{
+  "name": "skoci",
+  "version": "0.0.1",
+  "description": "A wrapper for fetch API",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ralibi/skoci.git"
+  },
+  "keywords": [
+    "fetch",
+    "http",
+    "request"
+  ],
+  "author": "Raymond Ralibi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ralibi/skoci/issues"
+  },
+  "homepage": "https://github.com/ralibi/skoci#readme",
+  "dependencies": {
+    "qs": "^6.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0"
+  }
+}
