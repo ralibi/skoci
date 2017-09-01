@@ -90,11 +90,11 @@ function populateRequest (vesselObject, val, config) {
       }
     }
 
-    // GLOBAL Hook BEFORE request call
-    globalHooks.before.forEach((f) => { params = f(params) })
-
     // Hook BEFORE request call
     this.hooks[key].before.forEach((f) => { params = f(params) })
+
+    // GLOBAL Hook BEFORE request call
+    globalHooks.before.forEach((f) => { params = f(params) })
 
     if (isMultipartFormData(config)) {
       delete opts.headers['Content-Type']
@@ -121,18 +121,18 @@ function populateRequest (vesselObject, val, config) {
         ).then(
           (response) => {
             if (response.ok) {
-              // Hook RESOLVED request call
-              this.hooks[key].resolved.forEach((f) => f(response))
-
               // GLOBAL Hook RESOLVED request call
               globalHooks.resolved.forEach((f) => f(response))
+
+              // Hook RESOLVED request call
+              this.hooks[key].resolved.forEach((f) => f(response))
               return resolve(response)
             } else {
-              // Hook REJECTED request call
-              this.hooks[key].rejected.forEach((f) => f(response))
-
               // GLOBAL Hook REJECTED request call
               globalHooks.rejected.forEach((f) => f(response))
+
+              // Hook REJECTED request call
+              this.hooks[key].rejected.forEach((f) => f(response))
               // return Promise.reject(errorResponse)
               // return reject(response)
             }
