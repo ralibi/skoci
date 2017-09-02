@@ -13,10 +13,10 @@ module.exports = function (opts) {
 
   // Add an alias method
   // name, method, action
-  // vessel.add({ name: 'retrieve' })
-  // vessel.add({ name: 'create', method: 'post' })
-  // vessel.add({ name: 'execute_transition', method: 'post', action: 'execute_transition' })
-  this.add = function (vesselObject, aliasObject, config) {
+  // skoci.add({ name: 'retrieve' })
+  // skoci.add({ name: 'create', method: 'post' })
+  // skoci.add({ name: 'execute_transition', method: 'post', action: 'execute_transition' })
+  this.add = function (skociObject, aliasObject, config) {
     // Alias object example
     //   { name: 'retrieve' },
     //   { name: 'new', action: 'new' },
@@ -27,7 +27,7 @@ module.exports = function (opts) {
     //   { name: 'execute_transition', method: 'post', action: 'execute_transition' }
 
     // Generate aliases
-    populateRequest(vesselObject, aliasObject, config)
+    populateRequest(skociObject, aliasObject, config)
   }
 
   this.addGlobalBeforeHooks = (fn) => { globalHooks.before.push(fn) }
@@ -57,20 +57,20 @@ function getUrl (url, params, action) {
   return resultUrl
 }
 
-function populateRequest (vesselObject, val, config) {
+function populateRequest (skociObject, val, config) {
   // Prepare local variables
   let key = val.name
   let method = (typeof val.method !== 'undefined') ? val.method : 'get'
   let action = val.action
 
   // Populate hooks container for a key request
-  // vesseleObject.hooks.execute_transition.before.push (params)
-  // vesseleObject.hooks.execute_transition.resolved.push (resolved)
-  // vesseleObject.hooks.execute_transition.rejected.push (rejected)
-  vesselObject.hooks[key] = getCycle()
+  // skociObject.hooks.execute_transition.before.push (params)
+  // skociObject.hooks.execute_transition.resolved.push (resolved)
+  // skociObject.hooks.execute_transition.rejected.push (rejected)
+  skociObject.hooks[key] = getCycle()
 
   // Add alias request
-  vesselObject[key] = function (params, data) {
+  skociObject[key] = function (params, data) {
     // Get the `id`
     // Get the `url`
     // Prepare & construct the `args` for request call
@@ -93,7 +93,7 @@ function populateRequest (vesselObject, val, config) {
     // GLOBAL Hook BEFORE request call
     globalHooks.before.forEach((f) => { params = f(params) })
 
-    let url = getUrl(vesselObject.baseUrl + vesselObject.url, params, action)
+    let url = getUrl(skociObject.baseUrl + skociObject.url, params, action)
 
     if (isMultipartFormData(config)) {
       delete opts.headers['Content-Type']
