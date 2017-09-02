@@ -47,15 +47,14 @@ function getCycle () {
   }
 }
 
-function getUrl (baseUrl, id, action) {
-  let url = baseUrl
-  if (id) {
-    url += '/' + id
-  }
+// Return url appended with an `action`
+// All `:pattern` in `url` will be replace by `params['pattern']`
+function getUrl (url, params, action) {
+  let resultUrl = url.replace(/\:([a-zA-Z_]+)/g, function (match, offset) { return params[offset] })
   if (action) {
-    url += '/' + action
+    resultUrl += '/' + action
   }
-  return url
+  return resultUrl
 }
 
 function populateRequest (vesselObject, val, config) {
@@ -80,8 +79,6 @@ function populateRequest (vesselObject, val, config) {
     // Call each resolved hooks, if resolved
     // Call each rejected hooks, if rejected
 
-    let id = params.id
-    let url = getUrl(vesselObject.baseUrl + vesselObject.url, id, action)
     let opts = {
       method: method.toUpperCase(),
       headers: {
@@ -95,6 +92,8 @@ function populateRequest (vesselObject, val, config) {
 
     // GLOBAL Hook BEFORE request call
     globalHooks.before.forEach((f) => { params = f(params) })
+
+    let url = getUrl(vesselObject.baseUrl + vesselObject.url, params, action)
 
     if (isMultipartFormData(config)) {
       delete opts.headers['Content-Type']
