@@ -54,8 +54,16 @@ function getUrl (url, params, action) {
 
   // replace `abc/.ext` to `abc.ext`
   resultUrl = resultUrl.replace(/\/\./, '.')
+
+  // append an `action`
   if (action) {
-    resultUrl += '/' + action
+    // insert action right before an extension if there is an extention
+    let extPattern = /(\.[a-z]{2,5})$/
+    if ((resultUrl.match(extPattern) || []).length) {
+      resultUrl = result.replace(extPattern, '/' + action + '$1')
+    } else {
+      resultUrl += '/' + action
+    }
   }
   return resultUrl
 }
