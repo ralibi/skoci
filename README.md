@@ -6,7 +6,6 @@ npm install skoci --save
 
 # Usage
 ```
-global.fetch = require("node-fetch")
 var Skoci = require("skoci")
 
 // Instantiate skoci
