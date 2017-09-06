@@ -1,6 +1,6 @@
 {
   "name": "skoci",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "A wrapper for fetch API",
   "main": "lib/index.js",
   "scripts": {
