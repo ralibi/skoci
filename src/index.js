@@ -106,28 +106,28 @@ function populateRequest (skociObject, val, config = {}) {
     }
 
     // Hook BEFORE request call
-    this.hooks[key].before.forEach((f) => { params = f(params) })
+    this.hooks[key].before.forEach((f) => { opts = f(opts) })
 
     // GLOBAL Hook BEFORE request call
-    globalHooks.before.forEach((f) => { params = f(params) })
+    globalHooks.before.forEach((f) => { opts = f(opts) })
 
     if (skociObject.baseUrl === undefined || skociObject.url === undefined) {
       console.error('To request an api, please provide either `baseUrl` or `url` or both when instantiate a Skoci instance')
       return
     }
-    let url = getUrl(skociObject.baseUrl + skociObject.url, params, action)
+    let url = getUrl(skociObject.baseUrl + skociObject.url, opts.params, action)
 
     if (isMultipartFormData(config)) {
       delete opts.headers['Content-Type']
       opts.body = data
     } else if (!['delete', 'get', 'head', 'options'].includes(method)) {
       // Need body
-      opts.body = JSON.stringify({ data: data })
+      opts.body = JSON.stringify(opts.data)
     }
 
     return new Promise(
       (resolve, reject) => {
-        fetch(url + '?' + stringify(params), opts).then(
+        fetch(url + '?' + stringify(opts.params), opts).then(
           (response) => {
             return response.json().then(
               (data) => {
