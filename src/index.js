@@ -117,8 +117,10 @@ function populateRequest (skociObject, val, config = {}) {
     }
     let url = getUrl(skociObject.baseUrl + skociObject.url, opts.params, action)
 
-    if (isMultipartFormData(config)) {
+    if (opts.headers['Content-Type'] === 'multipart/form-data') {
       opts.body = opts.data
+
+      // headers['Content-Type'] should be removed so the browser can append a Boundary for `multipart/form-data`
       delete opts.headers['Content-Type']
     } else if (!['DELETE', 'GET', 'HEAD', 'OPTIONS'].includes(opts.method)) {
       // Need body
@@ -166,10 +168,6 @@ function populateRequest (skociObject, val, config = {}) {
       }
     )
   }
-}
-
-function isMultipartFormData (config) {
-  return (config !== undefined && config.headers !== undefined && config.headers['Content-Type'] === 'multipart/form-data')
 }
 
 function stringify (params) {
