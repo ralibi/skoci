@@ -1,7 +1,7 @@
 // Wrap hooks around request
 import qs from 'qs'
 
-module.exports = function (opts) {
+module.exports = function (opts = {}) {
   // Retain hooks functions
   this.hooks = {}
 
@@ -104,6 +104,10 @@ function populateRequest (skociObject, val, config) {
     // GLOBAL Hook BEFORE request call
     globalHooks.before.forEach((f) => { params = f(params) })
 
+    if (skociObject.baseUrl === undefined || skociObject.url === undefined) {
+      console.error('To request an api, please provide either `baseUrl` or `url` or both when instantiate a Skoci instance')
+      return
+    }
     let url = getUrl(skociObject.baseUrl + skociObject.url, params, action)
 
     if (isMultipartFormData(config)) {
