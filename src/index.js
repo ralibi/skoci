@@ -50,7 +50,7 @@ function getCycle () {
 // Return url appended with an `action`
 // All `:pattern` in `url` will be replace by `params['pattern']`
 function getUrl (url, params, action) {
-  let resultUrl = url.replace(/\:([a-zA-Z_]+)/g, function (match, offset) { return params[offset] ? params[offset] : '' })
+  let resultUrl = url.replace(/:([a-zA-Z_]+)/g, function (match, offset) { return params[offset] ? params[offset] : '' })
 
   // replace `abc/.ext` to `abc.ext`
   resultUrl = resultUrl.replace(/\/\./, '.')
