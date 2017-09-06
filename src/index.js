@@ -118,9 +118,9 @@ function populateRequest (skociObject, val, config = {}) {
     let url = getUrl(skociObject.baseUrl + skociObject.url, opts.params, action)
 
     if (isMultipartFormData(config)) {
+      opts.body = opts.data
       delete opts.headers['Content-Type']
-      opts.body = data
-    } else if (!['delete', 'get', 'head', 'options'].includes(method)) {
+    } else if (!['DELETE', 'GET', 'HEAD', 'OPTIONS'].includes(opts.method)) {
       // Need body
       opts.body = JSON.stringify(opts.data)
     }
