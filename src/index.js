@@ -95,6 +95,14 @@ function populateRequest (skociObject, val, config = {}) {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     }
+
+    opts.params = Object.assign({}, opts.params, params)
+
+    if (opts.headers['Content-Type'] === 'multipart/form-data') {
+      // data is a FormData object, keep it that way
+      opts.data = data
+    } else {
+      opts.data = Object.assign({}, opts.data, data)
     }
 
     // Hook BEFORE request call
