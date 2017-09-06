@@ -68,7 +68,7 @@ function getUrl (url, params, action) {
   return resultUrl
 }
 
-function populateRequest (skociObject, val, config) {
+function populateRequest (skociObject, val, config = {}) {
   // Prepare local variables
   let key = val.name
   let method = (typeof val.method !== 'undefined') ? val.method : 'get'
@@ -81,7 +81,7 @@ function populateRequest (skociObject, val, config) {
   skociObject.hooks[key] = getCycle()
 
   // Add alias request
-  skociObject[key] = function (params, data) {
+  skociObject[key] = function (params = {}, data = {}, opts = {}) {
     // Get the `id`
     // Get the `url`
     // Prepare & construct the `args` for request call
@@ -90,12 +90,11 @@ function populateRequest (skociObject, val, config) {
     // Call each resolved hooks, if resolved
     // Call each rejected hooks, if rejected
 
-    let opts = {
-      method: method.toUpperCase(),
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      }
+    opts.method = (opts.method || method).toUpperCase()
+    opts.headers = opts.headers || config.headers || {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    }
     }
 
     // Hook BEFORE request call
