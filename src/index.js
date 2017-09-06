@@ -60,7 +60,7 @@ function getUrl (url, params, action) {
     // insert action right before an extension if there is an extention
     let extPattern = /(\.[a-z]{2,5})$/
     if ((resultUrl.match(extPattern) || []).length) {
-      resultUrl = result.replace(extPattern, '/' + action + '$1')
+      resultUrl = resultUrl.replace(extPattern, '/' + action + '$1')
     } else {
       resultUrl += '/' + action
     }
