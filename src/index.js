@@ -11,6 +11,9 @@ module.exports = function (opts = {}) {
   // /vehicle/cars
   this.url = opts.url
 
+  // /vehicle/cars?params=coo
+  this.params = opts.params || {}
+
   // Add an alias method
   // name, method, action
   // skoci.add({ name: 'retrieve' })
@@ -73,6 +76,7 @@ function populateRequest (skociObject, val, config = {}) {
   let key = val.name
   let method = (typeof val.method !== 'undefined') ? val.method : 'get'
   let action = val.action
+  let defaultParams = skociObject.params
 
   // Populate hooks container for a key request
   // skociObject.hooks.execute_transition.before.push (params)
@@ -96,7 +100,7 @@ function populateRequest (skociObject, val, config = {}) {
       'Content-Type': 'application/json'
     }
 
-    opts.params = Object.assign({}, opts.params, params)
+    opts.params = Object.assign({}, defaultParams, opts.params, params)
 
     if (opts.headers['Content-Type'] === 'multipart/form-data') {
       // data is a FormData object, keep it that way
